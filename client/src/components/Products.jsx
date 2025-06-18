@@ -231,13 +231,23 @@ function Products() {
     border: 1px solid #ccc;
   }
 
-  @media (max-width: 600px) {
-    .menu-grid {
-      flex-direction: column;
-      align-items: center;
-    }
-    .food-card {
-      width: 90%;
+          @media (prefers-color-scheme: dark) {
+          .container {
+            background-color: #1f1f1f;
+            color: #f4eada;
+          }
+
+          .food-card {
+            background: #2d2d2d;
+            border: 1px solid #444;
+          }
+
+          .food-card:hover {
+            background: #3a2d20;
+          }
+
+          .cart-section {
+            background: #2a2
     }
   }
 `}</style>
