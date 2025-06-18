@@ -24,10 +24,6 @@ function Products() {
     { id: 16, name: "Rasgulla", price: "₹80", quantity: 1, category: "Dessert" }
   ];
 
-  const filteredMenu = foodMenu.filter(item =>
-  item.name.toLowerCase().includes(searchQuery.toLowerCase())
-);
-
   const addToCart = (item) => {
     const exists = cartItems.find(i => i.name === item.name);
     if (!exists) setCartItems([...cartItems, { ...item }]);
@@ -85,8 +81,10 @@ function Products() {
   };
 
    const [searchQuery, setSearchQuery] = useState("");
-
-
+   
+const filteredMenu = foodMenu.filter(item =>
+  item.name.toLowerCase().includes(searchQuery.toLowerCase())
+);
 
 
   return (
@@ -113,7 +111,7 @@ function Products() {
         <div key={category}>
           <h3>{category}</h3>
           <div className="menu-grid">
-            {filteredMenu.filter(item => item.category === category).map(item => (
+            {foodMenu.filter(item => item.category === category).map(item => (
               <div className="food-card" key={item.id}>
                 <h4>{item.name}</h4>
                 <p>{item.price}</p>
@@ -160,39 +158,35 @@ function Products() {
         </div>
       )}
 
-   <style>{`
-  body, html {
-    margin: 0;
-    padding: 0;
-    background-color: #f8f1e8;
-  }
-
+     <style>{`
   .container {
     padding: 20px;
-    margin-top: 0;
-    padding-top: 0;
     font-family: 'Poppins', sans-serif;
     color: #3d3d3d;
     background-color: #f8f1e8;
   }
 
-  h1 {
-    color: #e65c00;
-    margin-top: 0;
+  body {
+    background-color: #f8f1e8;
   }
 
   h2, h3 {
     color: #e65c00;
   }
+    h1 {
+  color: #e65c00; /* Vibrant orange or your preferred theme color */
+}
+
+p, span, li {
+  color: #5c4033; /* Toasted cocoa brown or something rich */
+}
 
   h4 {
     color: #5c3317;
     margin-bottom: 6px;
   }
 
-  p, span, li {
-    color: #5c4033;
-  }
+ 
 
   strong {
     color: #7a2e00;
@@ -219,6 +213,15 @@ function Products() {
   .food-card:hover {
     background: #ffe1c2;
   }
+    body, html {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  margin-top: 0;
+  padding-top: 0;
+}
+
 
   .buy-button, .submit-order {
     background-color: #ff6b00;
@@ -260,21 +263,6 @@ function Products() {
     border-radius: 10px;
   }
 
-  .cart-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-height: 300px;
-    overflow-y: auto;
-  }
-
-  .cart-section li {
-    padding: 8px 0;
-    font-size: 16px;
-    line-height: 1.5;
-    border-bottom: 1px solid #f0d0aa;
-  }
-
   .email-input {
     padding: 8px;
     width: 250px;
@@ -288,61 +276,11 @@ function Products() {
       flex-direction: column;
       align-items: center;
     }
-
     .food-card {
       width: 90%;
     }
-
-    .cart-section li {
-      font-size: 16px;
-    }
-
-    .cart-section {
-      padding: 14px;
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .container {
-      background-color: #1f1f1f;
-      color: #f4eada;
-    }
-
-    .food-card {
-      background: #2d2d2d;
-      border: 1px solid #444;
-    }
-
-    .food-card:hover {
-      background: #3a2d20;
-    }
-
-    .cart-section {
-      background: #2a2a2a;
-      border: 1px solid #555;
-    }
-
-    h1, h2, h3, h4, p, span, li, strong {
-      color: #ffe6c7;
-    }
-
-    .quantity-controls button {
-      background: #3a3a3a;
-      color: #ffe6c7;
-    }
-
-    .quantity-controls button:hover {
-      background: #5a4a3a;
-    }
-
-    .email-input {
-      background: #1a1a1a;
-      color: #ffe6c7;
-      border: 1px solid #666;
-    }
   }
 `}</style>
-
 
          
         
