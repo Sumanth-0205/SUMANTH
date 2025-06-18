@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 
 function Products() {
   const [cartItems, setCartItems] = useState([]);
   const [customerEmail, setCustomerEmail] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const itemRefs = useRef({});
 
   const foodMenu = [
     { id: 1, name: "Pizza", price: "₹250", quantity: 1, category: "Main Course" },
@@ -24,6 +26,10 @@ function Products() {
     { id: 16, name: "Rasgulla", price: "₹80", quantity: 1, category: "Dessert" }
   ];
 
+  const filteredMenu = foodMenu.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const addToCart = (item) => {
     const exists = cartItems.find(i => i.name === item.name);
     if (!exists) setCartItems([...cartItems, { ...item }]);
@@ -31,10 +37,11 @@ function Products() {
 
   const increaseQuantity = (item) => {
     setCartItems(prev =>
-      prev.map(p => 
-        p.name === item.name && p.quantity<10
-        ? { ...p, quantity: p.quantity + 1 } 
-        : p)
+      prev.map(p =>
+        p.name === item.name && p.quantity < 10
+          ? { ...p, quantity: p.quantity + 1 }
+          : p
+      )
     );
   };
 
@@ -65,9 +72,7 @@ function Products() {
     }
 
     try {
-    await axios.post("https://sumanth-rta0.onrender.com/send-order", {
-
-
+      await axios.post("https://sumanth-rta0.onrender.com/send-order", {
         cartItems,
         customerEmail
       });
@@ -80,52 +85,64 @@ function Products() {
     }
   };
 
-   const [searchQuery, setSearchQuery] = useState("");
-   
-const filteredMenu = foodMenu.filter(item =>
-  item.name.toLowerCase().includes(searchQuery.toLowerCase())
-);
-
-
   return (
     <div className="container">
-      <h2>Food Menu</h2>
+      
 
       <input
-  type="text"
-  placeholder="Search food..."
-  value={searchQuery}
-  onChange={(e) => setSearchQuery(e.target.value)}
-  style={{
-    padding: "8px",
-    marginBottom: "16px",
-    width: "100%",
-    maxWidth: "400px",
-    borderRadius: "6px",
-    border: "1px solid #ccc"
-  }}
-/>
-
+        type="text"
+        placeholder="Search food..."
+        value={searchQuery}
+        onChange={(e) => {
+          const value = e.target.value;
+          setSearchQuery(value);
+          const match = foodMenu.find(f =>
+            f.name.toLowerCase().includes(value.toLowerCase())
+          );
+          if (match && itemRefs.current[match.name]) {
+            itemRefs.current[match.name].scrollIntoView({
+              behavior: "smooth",
+              block: "center"
+            });
+          }
+        }}
+        style={{
+          padding: "8px",
+          marginBottom: "16px",
+          width: "100%",
+          maxWidth: "400px",
+          borderRadius: "6px",
+          border: "1px solid #ccc"
+        }}
+      />
 
       {["Main Course", "Snacks", "Healthy", "Dessert"].map(category => (
         <div key={category}>
           <h3>{category}</h3>
           <div className="menu-grid">
-            {foodMenu.filter(item => item.category === category).map(item => (
-              <div className="food-card" key={item.id}>
-                <h4>{item.name}</h4>
-                <p>{item.price}</p>
-                {getQuantity(item.name) > 0 ? (
-                  <div className="quantity-controls">
-                    <button onClick={() => decreaseQuantity(item)}>➖</button>
-                    <span>{getQuantity(item.name)}</span>
-                    <button onClick={() => increaseQuantity(item)}>➕</button>
-                  </div>
-                ) : (
-                  <button className="buy-button" onClick={() => addToCart(item)}>BUY</button>
-                )}
-              </div>
-            ))}
+            {filteredMenu
+              .filter(item => item.category === category)
+              .map(item => (
+                <div
+                  className="food-card"
+                  key={item.id}
+                  ref={(el) => (itemRefs.current[item.name] = el)}
+                >
+                  <h4>{item.name}</h4>
+                  <p>{item.price}</p>
+                  {getQuantity(item.name) > 0 ? (
+                    <div className="quantity-controls">
+                      <button onClick={() => decreaseQuantity(item)}>➖</button>
+                      <span>{getQuantity(item.name)}</span>
+                      <button onClick={() => increaseQuantity(item)}>➕</button>
+                    </div>
+                  ) : (
+                    <button className="buy-button" onClick={() => addToCart(item)}>
+                      BUY
+                    </button>
+                  )}
+                </div>
+              ))}
           </div>
         </div>
       ))}
@@ -158,132 +175,70 @@ const filteredMenu = foodMenu.filter(item =>
         </div>
       )}
 
-     <style>{`
-  .container {
-    padding: 20px;
-    font-family: 'Poppins', sans-serif;
-    color: #3d3d3d;
-    background-color: #f8f1e8;
-  }
+      <style>{`
 
-  body {
-    background-color: #f8f1e8;
-  }
-
-  h2, h3 {
-    color: #e65c00;
-  }
-    h1 {
-  color: #e65c00; /* Vibrant orange or your preferred theme color */
-}
-
-p, span, li {
-  color: #5c4033; /* Toasted cocoa brown or something rich */
-}
-
-  h4 {
-    color: #5c3317;
-    margin-bottom: 6px;
-  }
-
- 
-
-  strong {
-    color: #7a2e00;
-  }
-
-  .menu-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-
-  .food-card {
-    border: 1px solid #ddc1a3;
-    padding: 12px;
-    border-radius: 8px;
-    width: 160px;
-    text-align: center;
-    background: #fff1e5;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
-    transition: background 0.3s ease-in-out;
-  }
-
-  .food-card:hover {
-    background: #ffe1c2;
-  }
-    body, html {
-  margin: 0;
-  padding: 0;
-}
-.container {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-
-  .buy-button, .submit-order {
-    background-color: #ff6b00;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-
-  .buy-button:hover, .submit-order:hover {
-    background-color: #e05900;
-  }
-
-  .quantity-controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .quantity-controls button {
-    padding: 4px 10px;
-    border: none;
-    background: #eee;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .quantity-controls button:hover {
-    background: #ddd;
-  }
-
-  .cart-section {
-    margin-top: 30px;
-    background: #fef4e8;
-    border: 1px solid #f5cba7;
-    padding: 16px;
-    border-radius: 10px;
-  }
-
-  .email-input {
-    padding: 8px;
-    width: 250px;
-    margin: 10px 0;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-
-  @media (max-width: 600px) {
-    .menu-grid {
-      flex-direction: column;
-      align-items: center;
-    }
-    .food-card {
-      width: 90%;
-    }
-  }
-`}</style>
-
-         
+       body, html {
+          margin: 0;
+          padding: 0;
+          background-color: #f8f1e8;
+        }
+        .container {
+          padding: 20px;
+          font-family: 'Poppins', sans-serif;
+          background-color: #f8f1e8;
+        }
+        h1 {
+          color: #e65c00;
+          margin-top: 0;
+        }
+        h2, h3 {
+          color: #e65c00;
+        }
+        h4 {
+          color: #5c3317;
+          margin-bottom: 6px;
+        }
+        p, span, li {
+          color: #5c4033;
+        }
+        strong {
+          color: #7a2e00;
+        }
+        .menu-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 16px;
+          margin-bottom: 20px;
+        }
+        .food-card {
+          border: 1px solid #ddc1a3;
+          padding: 12px;
+          border-radius: 8px;
+          width: 160px;
+          text-align: center;
+          background: #fff1e5;
+          box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+        }
+        .food-card:hover {
+          background: #ffe1c2;
+        }
+        .buy-button, .submit-order {
+          background-color: #ff6b00;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+        .buy-button:hover, .submit-order:hover {
+          background-color: #e05900;
+        }
+        .quantity-controls {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
         
+      `}</style>
     </div>
   );
 }
