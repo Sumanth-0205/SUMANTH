@@ -147,15 +147,20 @@ function Products() {
   h2, h3 {
     color: #e65c00;
   }
+    h1 {
+  color: #e65c00; /* Vibrant orange or your preferred theme color */
+}
+
+p, span, li {
+  color: #5c4033; /* Toasted cocoa brown or something rich */
+}
 
   h4 {
     color: #5c3317;
     margin-bottom: 6px;
   }
 
-  p, span, li {
-    color: #4a3f35;
-  }
+ 
 
   strong {
     color: #7a2e00;
@@ -231,23 +236,13 @@ function Products() {
     border: 1px solid #ccc;
   }
 
-          @media (prefers-color-scheme: dark) {
-          .container {
-            background-color: #1f1f1f;
-            color: #f4eada;
-          }
-
-          .food-card {
-            background: #2d2d2d;
-            border: 1px solid #444;
-          }
-
-          .food-card:hover {
-            background: #3a2d20;
-          }
-
-          .cart-section {
-            background: #2a2
+  @media (max-width: 600px) {
+    .menu-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+    .food-card {
+      width: 90%;
     }
   }
 `}</style>
