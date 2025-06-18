@@ -132,84 +132,118 @@ function Products() {
         </div>
       )}
 
-      <style>{`
-        .container {
-          padding: 20px;
-          font-family: Arial, sans-serif;
-        }
-        h2, h3 {
-          color: #e65c00;
-        }
-        .menu-grid {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 16px;
-          margin-bottom: 20px;
-        }
-        .food-card {
-          border: 1px solid #ccc;
-          padding: 12px;
-          border-radius: 8px;
-          width: 160px;
-          text-align: center;
-          background: #fff7f0;
-          box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
-        }
-        .food-card:hover {
-          background: #ffe1c2;
-          transition: background 0.3s ease-in-out;
-        }
-        .buy-button, .submit-order {
-          background-color: #ff6b00;
-          color: white;
-          border: none;
-          padding: 8px 16px;
-          border-radius: 6px;
-          cursor: pointer;
-        }
-        .buy-button:hover, .submit-order:hover {
-          background-color: #e05900;
-        }
-        .quantity-controls {
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-          align-items: center;
-        }
-        .quantity-controls button {
-          padding: 4px 10px;
-          border: none;
-          background: #eee;
-          border-radius: 4px;
-          cursor: pointer;
-        }
-        .quantity-controls button:hover {
-          background: #ddd;
-        }
-        .cart-section {
-          margin-top: 30px;
-          background: #fdf2e9;
-          border: 1px solid #f5cba7;
-          padding: 16px;
-          border-radius: 10px;
-        }
-        .email-input {
-          padding: 8px;
-          width: 250px;
-          margin: 10px 0;
-          border-radius: 6px;
-          border: 1px solid #ccc;
-        }
-        @media (max-width: 600px) {
-          .menu-grid {
-            flex-direction: column;
-            align-items: center;
-          }
-          .food-card {
-            width: 90%;
-          }
-        }
-      `}</style>
+     <style>{`
+  .container {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #3d3d3d;
+    background-color: #f8f1e8;
+  }
+
+  body {
+    background-color: #f8f1e8;
+  }
+
+  h2, h3 {
+    color: #e65c00;
+  }
+
+  h4 {
+    color: #5c3317;
+    margin-bottom: 6px;
+  }
+
+  p, span, li {
+    color: #4a3f35;
+  }
+
+  strong {
+    color: #7a2e00;
+  }
+
+  .menu-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .food-card {
+    border: 1px solid #ddc1a3;
+    padding: 12px;
+    border-radius: 8px;
+    width: 160px;
+    text-align: center;
+    background: #fff1e5;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+    transition: background 0.3s ease-in-out;
+  }
+
+  .food-card:hover {
+    background: #ffe1c2;
+  }
+
+  .buy-button, .submit-order {
+    background-color: #ff6b00;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .buy-button:hover, .submit-order:hover {
+    background-color: #e05900;
+  }
+
+  .quantity-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .quantity-controls button {
+    padding: 4px 10px;
+    border: none;
+    background: #eee;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .quantity-controls button:hover {
+    background: #ddd;
+  }
+
+  .cart-section {
+    margin-top: 30px;
+    background: #fef4e8;
+    border: 1px solid #f5cba7;
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .email-input {
+    padding: 8px;
+    width: 250px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  @media (max-width: 600px) {
+    .menu-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+    .food-card {
+      width: 90%;
+    }
+  }
+`}</style>
+
+         
+        
     </div>
   );
 }
