@@ -62,7 +62,8 @@ function Products() {
     }
 
     try {
-      await axios.post("http://localhost:5000/send-order", {
+    await axios.post("https://your-backend-name.onrender.com/send-order", {
+
         cartItems,
         customerEmail
       });
