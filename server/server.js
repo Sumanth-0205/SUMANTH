@@ -33,7 +33,7 @@ app.post("/send-order", async (req, res) => {
 
     html: `
     <div style="font-family: 'Segoe UI', sans-serif; background: #fff8f2; padding: 20px; border-radius: 10px; border: 1px solid #ffb27e;">
-      <h2 style="color: #e65c00;">🍽️ Thank you for your order!</h2>
+      <h2 style="color: #e65c00;"> Thank you for your order!</h2>
       <p style="color: #444;">Hi there,</p>
       <p style="color: #444;">We're excited to confirm your order from <strong>Sumanth Foods</strong>. Here are your delicious details:</p>
       <ul style="color: #444;">
