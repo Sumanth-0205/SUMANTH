@@ -24,6 +24,10 @@ function Products() {
     { id: 16, name: "Rasgulla", price: "₹80", quantity: 1, category: "Dessert" }
   ];
 
+  const filteredMenu = foodMenu.filter(item =>
+  item.name.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
   const addToCart = (item) => {
     const exists = cartItems.find(i => i.name === item.name);
     if (!exists) setCartItems([...cartItems, { ...item }]);
@@ -31,7 +35,10 @@ function Products() {
 
   const increaseQuantity = (item) => {
     setCartItems(prev =>
-      prev.map(p => p.name === item.name ? { ...p, quantity: p.quantity + 1 } : p)
+      prev.map(p => 
+        p.name === item.name && p.quantity<10
+        ? { ...p, quantity: p.quantity + 1 } 
+        : p)
     );
   };
 
@@ -77,15 +84,36 @@ function Products() {
     }
   };
 
+   const [searchQuery, setSearchQuery] = useState("");
+
+
+
+
   return (
     <div className="container">
       <h2>Food Menu</h2>
+
+      <input
+  type="text"
+  placeholder="Search food..."
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+  style={{
+    padding: "8px",
+    marginBottom: "16px",
+    width: "100%",
+    maxWidth: "400px",
+    borderRadius: "6px",
+    border: "1px solid #ccc"
+  }}
+/>
+
 
       {["Main Course", "Snacks", "Healthy", "Dessert"].map(category => (
         <div key={category}>
           <h3>{category}</h3>
           <div className="menu-grid">
-            {foodMenu.filter(item => item.category === category).map(item => (
+            {filteredMenu.filter(item => item.category === category).map(item => (
               <div className="food-card" key={item.id}>
                 <h4>{item.name}</h4>
                 <p>{item.price}</p>
@@ -132,35 +160,39 @@ function Products() {
         </div>
       )}
 
-     <style>{`
+   <style>{`
+  body, html {
+    margin: 0;
+    padding: 0;
+    background-color: #f8f1e8;
+  }
+
   .container {
     padding: 20px;
+    margin-top: 0;
+    padding-top: 0;
     font-family: 'Poppins', sans-serif;
     color: #3d3d3d;
     background-color: #f8f1e8;
   }
 
-  body {
-    background-color: #f8f1e8;
+  h1 {
+    color: #e65c00;
+    margin-top: 0;
   }
 
   h2, h3 {
     color: #e65c00;
   }
-    h1 {
-  color: #e65c00; /* Vibrant orange or your preferred theme color */
-}
-
-p, span, li {
-  color: #5c4033; /* Toasted cocoa brown or something rich */
-}
 
   h4 {
     color: #5c3317;
     margin-bottom: 6px;
   }
 
- 
+  p, span, li {
+    color: #5c4033;
+  }
 
   strong {
     color: #7a2e00;
@@ -228,6 +260,21 @@ p, span, li {
     border-radius: 10px;
   }
 
+  .cart-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .cart-section li {
+    padding: 8px 0;
+    font-size: 16px;
+    line-height: 1.5;
+    border-bottom: 1px solid #f0d0aa;
+  }
+
   .email-input {
     padding: 8px;
     width: 250px;
@@ -241,11 +288,61 @@ p, span, li {
       flex-direction: column;
       align-items: center;
     }
+
     .food-card {
       width: 90%;
     }
+
+    .cart-section li {
+      font-size: 16px;
+    }
+
+    .cart-section {
+      padding: 14px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .container {
+      background-color: #1f1f1f;
+      color: #f4eada;
+    }
+
+    .food-card {
+      background: #2d2d2d;
+      border: 1px solid #444;
+    }
+
+    .food-card:hover {
+      background: #3a2d20;
+    }
+
+    .cart-section {
+      background: #2a2a2a;
+      border: 1px solid #555;
+    }
+
+    h1, h2, h3, h4, p, span, li, strong {
+      color: #ffe6c7;
+    }
+
+    .quantity-controls button {
+      background: #3a3a3a;
+      color: #ffe6c7;
+    }
+
+    .quantity-controls button:hover {
+      background: #5a4a3a;
+    }
+
+    .email-input {
+      background: #1a1a1a;
+      color: #ffe6c7;
+      border: 1px solid #666;
+    }
   }
 `}</style>
+
 
          
         
