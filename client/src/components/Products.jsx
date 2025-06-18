@@ -62,7 +62,8 @@ function Products() {
     }
 
     try {
-    await axios.post("https://your-backend-name.onrender.com/send-order", {
+    await axios.post("https://sumanth-rta0.onrender.com/send-order", {
+
 
         cartItems,
         customerEmail
