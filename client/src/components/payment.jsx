@@ -43,7 +43,7 @@ function Payment() {
 
 
       const options = {
-        key: key,
+        key: "rzp_test_8TdcNPQGJRhcCs",
         amount: order.amount,
         currency: "INR",
         name: "Food Ordering App",
