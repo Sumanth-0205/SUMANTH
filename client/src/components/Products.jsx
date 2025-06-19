@@ -1,38 +1,36 @@
+
 import React, { useState, useRef } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Products() {
   const [cartItems, setCartItems] = useState([]);
   const [customerEmail, setCustomerEmail] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const itemRefs = useRef({});
+  const navigate = useNavigate();
 
   const foodMenu = [
-    { id: 1, name: "Pizza", price: "₹250", quantity: 1, category: "Main Course" },
-    { id: 2, name: "Burger", price: "₹180", quantity: 1, category: "Main Course" },
-    { id: 3, name: "Noodles", price: "₹150", quantity: 1, category: "Main Course" },
-    { id: 4, name: "Paneer Tikka", price: "₹200", quantity: 1, category: "Main Course" },
-    { id: 5, name: "Fries", price: "₹90", quantity: 1, category: "Snacks" },
-    { id: 6, name: "Samosa", price: "₹30", quantity: 1, category: "Snacks" },
-    { id: 7, name: "Sandwich", price: "₹120", quantity: 1, category: "Snacks" },
-    { id: 8, name: "Pakora", price: "₹60", quantity: 1, category: "Snacks" },
-    { id: 9, name: "Salad", price: "₹130", quantity: 1, category: "Healthy" },
-    { id: 10, name: "Fruit Bowl", price: "₹140", quantity: 1, category: "Healthy" },
-    { id: 11, name: "Sprouts", price: "₹100", quantity: 1, category: "Healthy" },
-    { id: 12, name: "Veg Soup", price: "₹110", quantity: 1, category: "Healthy" },
-    { id: 13, name: "Ice Cream", price: "₹100", quantity: 1, category: "Dessert" },
-    { id: 14, name: "Gulab Jamun", price: "₹90", quantity: 1, category: "Dessert" },
-    { id: 15, name: "Chocolate Brownie", price: "₹150", quantity: 1, category: "Dessert" },
-    { id: 16, name: "Rasgulla", price: "₹80", quantity: 1, category: "Dessert" }
+    { id: 1, name: "Pizza", price: "₹250", category: "Main Course" },
+    { id: 2, name: "Burger", price: "₹180", category: "Main Course" },
+    { id: 3, name: "Noodles", price: "₹150", category: "Main Course" },
+    { id: 4, name: "Paneer Tikka", price: "₹200", category: "Main Course" },
+    { id: 5, name: "Fries", price: "₹90", category: "Snacks" },
+    { id: 6, name: "Samosa", price: "₹30", category: "Snacks" },
+    { id: 7, name: "Sandwich", price: "₹120", category: "Snacks" },
+    { id: 8, name: "Pakora", price: "₹60", category: "Snacks" },
+    { id: 9, name: "Salad", price: "₹130", category: "Healthy" },
+    { id: 10, name: "Fruit Bowl", price: "₹140", category: "Healthy" },
+    { id: 11, name: "Sprouts", price: "₹100", category: "Healthy" },
+    { id: 12, name: "Veg Soup", price: "₹110", category: "Healthy" },
+    { id: 13, name: "Ice Cream", price: "₹100", category: "Dessert" },
+    { id: 14, name: "Gulab Jamun", price: "₹90", category: "Dessert" },
+    { id: 15, name: "Chocolate Brownie", price: "₹150", category: "Dessert" },
+    { id: 16, name: "Rasgulla", price: "₹80", category: "Dessert" }
   ];
-
-  const filteredMenu = foodMenu.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   const addToCart = (item) => {
     const exists = cartItems.find(i => i.name === item.name);
-    if (!exists) setCartItems([...cartItems, { ...item }]);
+    if (!exists) setCartItems([...cartItems, { ...item, quantity: 1 }]);
   };
 
   const increaseQuantity = (item) => {
@@ -58,37 +56,33 @@ function Products() {
     return item ? item.quantity : 0;
   };
 
-  const calculateTotal = () => {
-    return cartItems.reduce((total, item) => {
+  const calculateTotal = () =>
+    cartItems.reduce((total, item) => {
       const price = parseInt(item.price.replace("₹", ""));
       return total + item.quantity * price;
     }, 0);
-  };
 
-  const handleBuyClick = async () => {
-    if (!customerEmail) {
-      alert("Please enter your email before placing the order.");
+  const handleCheckout = () => {
+    if (!customerEmail || !customerEmail.includes("@")) {
+      alert("Please enter a valid email before proceeding.");
       return;
     }
 
-    try {
-      await axios.post("https://sumanth-rta0.onrender.com/send-order", {
-        cartItems,
-        customerEmail
-      });
-      alert("✅ Order confirmed! A confirmation has been emailed to you.");
-      setCartItems([]);
-      setCustomerEmail("");
-    } catch (error) {
-      console.error("Error:", error);
-      alert("❌ Failed to place order. Please try again.");
-    }
+    navigate("/payment", {
+      state: {
+        total: calculateTotal(),
+        customerEmail,
+        cartItems
+      }
+    });
   };
+
+  const filteredMenu = foodMenu.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="container">
-      
-
       <input
         type="text"
         placeholder="Search food..."
@@ -116,36 +110,45 @@ function Products() {
         }}
       />
 
-      {["Main Course", "Snacks", "Healthy", "Dessert"].map(category => (
-        <div key={category}>
-          <h3>{category}</h3>
-          <div className="menu-grid">
-            {filteredMenu
-              .filter(item => item.category === category)
-              .map(item => (
-                <div
-                  className="food-card"
-                  key={item.id}
-                  ref={(el) => (itemRefs.current[item.name] = el)}
-                >
-                  <h4>{item.name}</h4>
-                  <p>{item.price}</p>
-                  {getQuantity(item.name) > 0 ? (
-                    <div className="quantity-controls">
-                      <button onClick={() => decreaseQuantity(item)}>➖</button>
-                      <span>{getQuantity(item.name)}</span>
-                      <button onClick={() => increaseQuantity(item)}>➕</button>
-                    </div>
-                  ) : (
-                    <button className="buy-button" onClick={() => addToCart(item)}>
-                      BUY
-                    </button>
-                  )}
+      
+   {filteredMenu.length === 0 ? (
+  <div style={{ textAlign: "center", marginTop: 40, color: "#888" }}>
+    <h3>😕 No results found</h3>
+    <p>Try searching for something else!</p>
+  </div>
+) : (
+  ["Main Course", "Snacks", "Healthy", "Dessert"].map(category => (
+    <div key={category}>
+      <h3>{category}</h3>
+      <div className="menu-grid">
+        {filteredMenu
+          .filter(item => item.category === category)
+          .map(item => (
+            <div
+              className="food-card"
+              key={item.id}
+              ref={(el) => (itemRefs.current[item.name] = el)}
+            >
+              <h4>{item.name}</h4>
+              <p>{item.price}</p>
+              {getQuantity(item.name) > 0 ? (
+                <div className="quantity-controls">
+                  <button onClick={() => decreaseQuantity(item)}>➖</button>
+                  <span>{getQuantity(item.name)}</span>
+                  <button onClick={() => increaseQuantity(item)}>➕</button>
                 </div>
-              ))}
-          </div>
-        </div>
-      ))}
+              ) : (
+                <button className="buy-button" onClick={() => addToCart(item)}>
+                  ADD
+                </button>
+              )}
+            </div>
+          ))}
+      </div>
+    </div>
+  ))
+)}
+
 
       {cartItems.length > 0 && (
         <div className="cart-section">
@@ -153,10 +156,9 @@ function Products() {
           <ul>
             {cartItems.map((item, index) => {
               const price = parseInt(item.price.replace("₹", ""));
-              const subtotal = price * item.quantity;
               return (
                 <li key={index}>
-                  {item.name} — ₹{price} × {item.quantity} = ₹{subtotal}
+                  {item.name} — ₹{price} × {item.quantity} = ₹{price * item.quantity}
                 </li>
               );
             })}
@@ -171,13 +173,14 @@ function Products() {
             className="email-input"
           />
           <br />
-          <button onClick={handleBuyClick} className="submit-order">BUY</button>
+          <button onClick={handleCheckout} className="submit-order" style={{ marginTop: "10px" }}>
+            Proceed to Payment
+          </button>
         </div>
       )}
 
       <style>{`
-
-       body, html {
+        body, html {
           margin: 0;
           padding: 0;
           background-color: #f8f1e8;
@@ -187,22 +190,8 @@ function Products() {
           font-family: 'Poppins', sans-serif;
           background-color: #f8f1e8;
         }
-        h1 {
+        h1, h2, h3, h4 {
           color: #e65c00;
-          margin-top: 0;
-        }
-        h2, h3 {
-          color: #e65c00;
-        }
-        h4 {
-          color: #5c3317;
-          margin-bottom: 6px;
-        }
-        p, span, li {
-          color: #5c4033;
-        }
-        strong {
-          color: #7a2e00;
         }
         .menu-grid {
           display: flex;
@@ -237,7 +226,7 @@ function Products() {
           display: flex;
           justify-content: center;
           gap: 10px;
-        
+        }
       `}</style>
     </div>
   );
