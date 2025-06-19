@@ -19,7 +19,7 @@ function Payment() {
   const proceedToNext = async () => {
     setShowAlert(false);
     try {
-      await axios.post("http://localhost:5000/send-order", {
+      await axios.post("https://sumanth-rta0.onrender.com/send-order", {
         customerEmail,
         cartItems
       });
@@ -33,11 +33,14 @@ function Payment() {
 
   const openRazorpay = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/create-order", {
+      const res = await axios.post("https://sumanth-rta0.onrender.com/create-order", {
         amount: total
       });
 
       const order = res.data;
+
+      console.log(" Order received from backend:", order); // Add this log
+
 
       const options = {
         key: key,

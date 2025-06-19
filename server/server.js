@@ -8,16 +8,17 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "https://sumanth2.netlify.app" }));
+
 app.use(express.json());
 
-// 🧠 Razorpay instance (secure with secret key)
+//  Razorpay instance (secure with secret key)
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_SECRET_KEY
 });
 
-// ✅ Create Razorpay Order
+//  Create Razorpay Order
 app.post("/create-order", async (req, res) => {
   const { amount } = req.body;
 
@@ -29,14 +30,16 @@ app.post("/create-order", async (req, res) => {
 
   try {
     const order = await razorpay.orders.create(options);
+    console.log(" Razorpay order created:", order); // Add this log
+
     res.json(order);
   } catch (error) {
-    console.error("❌ Razorpay order error:", error);
+    console.error(" Razorpay order error:", error);
     res.status(500).json({ error: "Failed to create Razorpay order." });
   }
 });
 
-// ✅ Email Confirmation
+//  Email Confirmation
 app.post("/send-order", async (req, res) => {
   const { customerEmail, cartItems } = req.body;
 
@@ -81,5 +84,5 @@ app.post("/send-order", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });
