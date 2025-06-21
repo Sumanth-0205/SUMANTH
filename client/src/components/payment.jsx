@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -151,7 +151,7 @@ const [countdown, setCountdown] = useState(5);
             >
               <h3>Payment Successful</h3>
               <p>Payment ID: {paymentId}</p>
-              <p>Redirecting in 5 seconds…</p>
+              <p>Redirecting in {countdown} second{countdown !==1 ? "s" : ""}…</p>
               <button
                 onClick={proceedToNext}
                 style={{
