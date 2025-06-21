@@ -13,7 +13,7 @@ function App() {
           <Route path="/" element={<Products />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/thank-you" element={<ThankYou />} />
-
+           <Route path="*" element={<h2>Page not found</h2>} />
         </Routes>
       </div>
     </BrowserRouter>

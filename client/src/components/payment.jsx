@@ -1,27 +1,22 @@
-import React,{useState} from "react";
-import {useLocation,useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Payment() {
   const location = useLocation();
   const navigate = useNavigate();
-  
-
-
   const { total, customerEmail, cartItems } = location.state || {};
-
-  const key = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
   const [showAlert, setShowAlert] = useState(false);
   const [paymentId, setPaymentId] = useState(null);
-
+  const [loading, setLoading] = useState(false);
 
   const proceedToNext = async () => {
     setShowAlert(false);
     try {
       await axios.post("https://sumanth-rta0.onrender.com/send-order", {
         customerEmail,
-        cartItems
+        cartItems,
       });
     } catch (error) {
       console.error("Email failed:", error);
@@ -29,130 +24,139 @@ function Payment() {
     navigate("/thank-you");
   };
 
-
-
   const openRazorpay = async () => {
     try {
+      setLoading(true);
+      console.log("Creating order...");
+
       const res = await axios.post("https://sumanth-rta0.onrender.com/create-order", {
-        amount: total
+        amount: total,
       });
 
-      const order = res.data;
+      console.log("Order response:", res.data);
 
-      console.log(" Order received from backend:", order); // Add this log
+      setLoading(false);
 
+      if (!window.Razorpay) {
+        alert("Razorpay SDK failed to load.");
+        return;
+      }
 
       const options = {
-        key: "rzp_test_8TdcNPQGJRhcCs",
-        amount: order.amount,
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_8TdcNPQGJRhcCs",
+        amount: res.data.amount,
         currency: "INR",
         name: "Food Ordering App",
-        description: `Order for ₹${order.amount / 100}`,
-       
-        order_id: order.id,
-     
-       handler: function (response) {
-          setPaymentId(response.razorpay_payment_id);
-          setShowAlert(true);
-
-          setTimeout(() => {
-            proceedToNext();
-          }, 5000);
+        description: `Order for ₹${res.data.amount / 100}`,
+        order_id: res.data.id,
+        handler: function (response) {
+          try {
+            console.log("Payment success:", response);
+            setPaymentId(response.razorpay_payment_id);
+            setShowAlert(true);
+            setTimeout(proceedToNext, 5000);
+          } catch (err) {
+            console.error("Handler error:", err);
+            alert("Payment handler failed.");
+          }
         },
-
- 
         prefill: {
-          name: "Customer Name",
+          name: "Customer",
           email: customerEmail || "test@example.com",
-          contact: "9000000000"
+          contact: "9000000000",
         },
-        theme: {
-          color: "#ff6b00"
-        }
+        theme: { color: "#ff6b00" },
       };
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      console.log("Opening Razorpay with options:", options);
+      new window.Razorpay(options).open();
     } catch (err) {
-      console.error(" Razorpay error:", err);
+      setLoading(false);
+      console.error("Razorpay error:", err);
       alert("Something went wrong. Please try again.");
     }
   };
 
   return (
     <div
-  style={{
-        width: "100vw",
+      style={{
         height: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#f8f1e8"
+        background: "#f8f1e8",
       }}
->
- <div style={{ textAlign: "center", padding: "20px" }}>
-      <h2 style={{fontSize:"3rem"}}>Complete Your Payment</h2>
-      <p style={{fontSize:"2rem"}}>Click below to pay ₹{total} using Razorpay (Test Mode)</p>
-      <button
-        onClick={openRazorpay}
+    >
+      <div
         style={{
-          padding: "12px 24px",
-          backgroundColor: "#ff6b00",
-          color: "#fff",
-          border: "none",
-          borderRadius: "8px",
-          fontSize: "2rem",
-          cursor: "pointer",
-          
+          textAlign: "center",
+          background: "#fff",
+          padding: "40px",
+          borderRadius: "12px",
+          maxWidth: "400px",
+          width: "90%",
+          boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
         }}
       >
-        Pay Now
-      </button>
+        <h2>Complete Your Payment</h2>
+        <p>Click below to pay ₹{total} using Razorpay</p>
+        <button
+          onClick={openRazorpay}
+          disabled={loading}
+          style={{
+            padding: "12px 24px",
+            fontSize: "1.2rem",
+            background: "#ff6b00",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            marginTop: "16px",
+          }}
+        >
+          {loading ? "Processing..." : "Pay Now"}
+        </button>
 
         {showAlert && (
-        <div style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.6)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 1000
-        }}>
-             <div style={{
-            background: "#fff",
-            padding: "30px",
-            borderRadius: "8px",
-            textAlign: "center",
-            width: "300px"
-          }}>
-             <h2> Payment Successful</h2>
-            <p>Payment ID: {paymentId}</p>
-            <p>Redirecting automatically in 5 seconds…</p>
-            <button
-              onClick={proceedToNext}
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              backgroundColor: "rgba(0,0,0,0.6)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 9999,
+            }}
+          >
+            <div
               style={{
-                marginTop: "10px",
-                padding: "10px 20px",
-                fontSize: "16px",
-                backgroundColor: "#ff6b00",
-                color: "#fff",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer"
+                background: "#fff",
+                padding: 30,
+                borderRadius: 10,
+                maxWidth: "320px",
+                textAlign: "center",
               }}
             >
-              OK
-            </button>
+              <h3>Payment Successful</h3>
+              <p>Payment ID: {paymentId}</p>
+              <p>Redirecting in 5 seconds…</p>
+              <button
+                onClick={proceedToNext}
+                style={{
+                  marginTop: 10,
+                  padding: "10px 20px",
+                  backgroundColor: "#ff6b00",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 6,
+                }}
+              >
+                OK
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-
-</div>
-
+        )}
+      </div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+// src/ThankYou.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -5,15 +6,17 @@ function ThankYou() {
   const navigate = useNavigate();
 
   const goToMenu = () => {
-    navigate("/"); // Change this to "/products" or your home route if needed
+    navigate("/");
   };
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.heading}> Thank you for your order!</h2>
-      <p style={styles.text}>We’ve emailed your confirmation. Hope you’re hungry!</p>
+      <h2 style={styles.heading}>🎉 Thank you for your order!</h2>
+      <p style={styles.text}>
+        We’ve emailed your confirmation. Hope you’re hungry!
+      </p>
       <button onClick={goToMenu} style={styles.button}>
-       Back to Menu
+        Back to Menu
       </button>
     </div>
   );
@@ -21,20 +24,24 @@ function ThankYou() {
 
 const styles = {
   container: {
-    padding: 40,
+    padding: "40px",
     textAlign: "center",
     fontFamily: "'Poppins', sans-serif",
     backgroundColor: "#fff8f1",
-    minHeight: "100vh"
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   heading: {
     color: "#e65c00",
-    fontSize: "28px",
-    marginBottom: "16px"
+    fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+    marginBottom: "16px",
   },
   text: {
     color: "#555",
-    fontSize: "18px"
+    fontSize: "1.2rem",
   },
   button: {
     marginTop: 30,
@@ -43,9 +50,9 @@ const styles = {
     color: "#fff",
     border: "none",
     borderRadius: "6px",
-    fontSize: "16px",
-    cursor: "pointer"
-  }
+    fontSize: "1rem",
+    cursor: "pointer",
+  },
 };
 
 export default ThankYou;

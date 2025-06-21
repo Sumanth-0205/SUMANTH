@@ -1,38 +1,53 @@
 .app-container {
-    text-align: center;
-    padding: 20px;
-    background-color: #f0f0f0;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f1e8;
 }
 
-.menu-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
+.menu-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
-.food-item {
-    background-color: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 200px;
+.food-card {
+  border: 1px solid #ddc1a3;
+  padding: 12px;
+  border-radius: 8px;
+  width: 160px;
+  text-align: center;
+  background: #fff1e5;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.add-button {
-    background-color: #ff6600;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.food-card:hover {
+  background: #ffe1c2;
 }
 
-.buy-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.food-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.buy-button, .submit-order {
+  background-color: #ff6b00;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.buy-button:hover, .submit-order:hover {
+  background-color: #e05900;
+}
+
+.quantity-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
