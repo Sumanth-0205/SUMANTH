@@ -10,22 +10,22 @@ function Products() {
   const navigate = useNavigate();
 
   const foodMenu = [
-    { id: 1, name: "Pizza", price: "₹250", category: "Main Course",Image:"https://images.pexels.com/photos/367915/pexels-photo-367915.jpeg" },
-    { id: 2, name: "Burger", price: "₹180", category: "Main Course",Image:"https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg" },
-    { id: 3, name: "Noodles", price: "₹150", category: "Main Course",Image:"https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg" },
-    { id: 4, name: "Paneer Tikka", price: "₹200", category: "Main Course",Image:"https://images.pexels.com/photos/12737799/pexels-photo-12737799.jpeg" },
-    { id: 5, name: "Fries", price: "₹90", category: "Snacks",Image:"https://images.pexels.com/photos/1893555/pexels-photo-1893555.jpeg" },
-    { id: 6, name: "Samosa", price: "₹30", category: "Snacks",Image:"https://images.pexels.com/photos/2474658/pexels-photo-2474658.jpeg" },
-    { id: 7, name: "Sandwich", price: "₹120", category: "Snacks",Image:"https://images.pexels.com/photos/1647163/pexels-photo-1647163.jpeg" },
-    { id: 8, name: "Pakoda", price: "₹60", category: "Snacks",Image:"https://images.pexels.com/photos/9832685/pexels-photo-9832685.jpeg" },
-    { id: 9, name: "Salad", price: "₹130", category: "Healthy",Image:"https://images.pexels.com/photos/1059905/pexels-photo-1059905.jpeg" },
-    { id: 10, name: "Fruit Bowl", price: "₹140", category: "Healthy",Image:"https://images.pexels.com/photos/1242512/pexels-photo-1242512.jpeg" },
-    { id: 11, name: "Sprouts", price: "₹100", category: "Healthy",Image:"https://images.pexels.com/photos/3297367/pexels-photo-3297367.jpeg" },
-    { id: 12, name: "Veg Soup", price: "₹110", category: "Healthy",Image:"https://images.pexels.com/photos/3559899/pexels-photo-3559899.jpeg" },
-    { id: 13, name: "Ice Cream", price: "₹100", category: "Dessert",Image :"https://images.pexels.com/photos/1352281/pexels-photo-1352281.jpeg" },
-    { id: 14, name: "Gulab Jamun", price: "₹90", category: "Dessert" ,Image:"https://images.pexels.com/photos/30577321/pexels-photo-30577321.jpeg"},
-    { id: 15, name: "Chocolate Brownie", price: "₹150", category: "Dessert",Image:"https://images.pexels.com/photos/25595974/pexels-photo-25595974.jpeg" },
-    { id: 16, name: "Cake", price: "₹80", category: "Dessert",Image:"https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg" }
+    { id: 1, name: "Pizza", price: "₹250", category: "Main Course",Image:"/images/pizza.jpeg" },
+    { id: 2, name: "Burger", price: "₹180", category: "Main Course",Image:"/images/burger.jpeg" },
+    { id: 3, name: "Noodles", price: "₹150", category: "Main Course",Image:"/images/noodles.jpeg" },
+    { id: 4, name: "Paneer Tikka", price: "₹200", category: "Main Course",Image:"/images/paneertikka.jpeg" },
+    { id: 5, name: "Fries", price: "₹90", category: "Snacks",Image:"/images/fries.jpeg" },
+    { id: 6, name: "Samosa", price: "₹30", category: "Snacks",Image:"/images/samosa.jpeg" },
+    { id: 7, name: "Sandwich", price: "₹120", category: "Snacks",Image:"/images/sandwich.jpeg" },
+    { id: 8, name: "Pakoda", price: "₹60", category: "Snacks",Image:"/images/pakoda.jpeg" },
+    { id: 9, name: "Salad", price: "₹130", category: "Healthy",Image:"/images/salad.jpeg" },
+    { id: 10, name: "Fruit Bowl", price: "₹140", category: "Healthy",Image:"/images/fruitbowl.jpeg" },
+    { id: 11, name: "Sprouts", price: "₹100", category: "Healthy",Image:"/images/sprouts.jpeg" },
+    { id: 12, name: "Veg Soup", price: "₹110", category: "Healthy",Image:"/images/soup.jpeg" },
+    { id: 13, name: "Ice Cream", price: "₹100", category: "Dessert",Image :"/images/icecream.jpeg" },
+    { id: 14, name: "Gulab Jamun", price: "₹90", category: "Dessert" ,Image:"/images/julabjanum.jpeg"},
+    { id: 15, name: "Chocolate Brownie", price: "₹150", category: "Dessert",Image:"/images/brownie..jpeg" },
+    { id: 16, name: "Cake", price: "₹80", category: "Dessert",Image:"/images/cake.jpeg" }
   ];
 
   const addToCart = (item) => {
