@@ -64,9 +64,12 @@ function Products() {
     });
   };
 
-  const filteredMenu = foodMenu.filter(item =>
+  const filteredMenu = useMemo(() => (
+  foodMenu.filter(item =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  )
+), [searchQuery]);
+
 
   return (
     <div className="container">
