@@ -10,22 +10,22 @@ function Products() {
   const navigate = useNavigate();
 
   const foodMenu = [
-    { id: 1, name: "Pizza", price: "₹250", category: "Main Course" },
-    { id: 2, name: "Burger", price: "₹180", category: "Main Course" },
-    { id: 3, name: "Noodles", price: "₹150", category: "Main Course" },
-    { id: 4, name: "Paneer Tikka", price: "₹200", category: "Main Course" },
-    { id: 5, name: "Fries", price: "₹90", category: "Snacks" },
-    { id: 6, name: "Samosa", price: "₹30", category: "Snacks" },
-    { id: 7, name: "Sandwich", price: "₹120", category: "Snacks" },
-    { id: 8, name: "Pakora", price: "₹60", category: "Snacks" },
-    { id: 9, name: "Salad", price: "₹130", category: "Healthy" },
-    { id: 10, name: "Fruit Bowl", price: "₹140", category: "Healthy" },
-    { id: 11, name: "Sprouts", price: "₹100", category: "Healthy" },
-    { id: 12, name: "Veg Soup", price: "₹110", category: "Healthy" },
-    { id: 13, name: "Ice Cream", price: "₹100", category: "Dessert" },
-    { id: 14, name: "Gulab Jamun", price: "₹90", category: "Dessert" },
-    { id: 15, name: "Chocolate Brownie", price: "₹150", category: "Dessert" },
-    { id: 16, name: "Rasgulla", price: "₹80", category: "Dessert" }
+    { id: 1, name: "Pizza", price: "₹250", category: "Main Course",Image:"https://images.pexels.com/photos/367915/pexels-photo-367915.jpeg" },
+    { id: 2, name: "Burger", price: "₹180", category: "Main Course",Image:"https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg" },
+    { id: 3, name: "Noodles", price: "₹150", category: "Main Course",Image:"https://images.pexels.com/photos/2347311/pexels-photo-2347311.jpeg" },
+    { id: 4, name: "Paneer Tikka", price: "₹200", category: "Main Course",Image:"https://images.pexels.com/photos/12737799/pexels-photo-12737799.jpeg" },
+    { id: 5, name: "Fries", price: "₹90", category: "Snacks",Image:"https://images.pexels.com/photos/1893555/pexels-photo-1893555.jpeg" },
+    { id: 6, name: "Samosa", price: "₹30", category: "Snacks",Image:"https://images.pexels.com/photos/2474658/pexels-photo-2474658.jpeg" },
+    { id: 7, name: "Sandwich", price: "₹120", category: "Snacks",Image:"https://images.pexels.com/photos/1647163/pexels-photo-1647163.jpeg" },
+    { id: 8, name: "Pakoda", price: "₹60", category: "Snacks",Image:"https://images.pexels.com/photos/9832685/pexels-photo-9832685.jpeg" },
+    { id: 9, name: "Salad", price: "₹130", category: "Healthy",Image:"https://images.pexels.com/photos/1059905/pexels-photo-1059905.jpeg" },
+    { id: 10, name: "Fruit Bowl", price: "₹140", category: "Healthy",Image:"https://images.pexels.com/photos/1242512/pexels-photo-1242512.jpeg" },
+    { id: 11, name: "Sprouts", price: "₹100", category: "Healthy",Image:"https://images.pexels.com/photos/3297367/pexels-photo-3297367.jpeg" },
+    { id: 12, name: "Veg Soup", price: "₹110", category: "Healthy",Image:"https://images.pexels.com/photos/3559899/pexels-photo-3559899.jpeg" },
+    { id: 13, name: "Ice Cream", price: "₹100", category: "Dessert",Image :"https://images.pexels.com/photos/1352281/pexels-photo-1352281.jpeg" },
+    { id: 14, name: "Gulab Jamun", price: "₹90", category: "Dessert" ,Image:"https://images.pexels.com/photos/30577321/pexels-photo-30577321.jpeg"},
+    { id: 15, name: "Chocolate Brownie", price: "₹150", category: "Dessert",Image:"https://images.pexels.com/photos/25595974/pexels-photo-25595974.jpeg" },
+    { id: 16, name: "Cake", price: "₹80", category: "Dessert",Image:"https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg" }
   ];
 
   const addToCart = (item) => {
@@ -121,6 +121,7 @@ function Products() {
     <div key={category}>
       <h3>{category}</h3>
       <div className="menu-grid">
+      
         {filteredMenu
           .filter(item => item.category === category)
           .map(item => (
@@ -129,6 +130,7 @@ function Products() {
               key={item.id}
               ref={(el) => (itemRefs.current[item.name] = el)}
             >
+              <img src ={item.Image} alt={item.Image} className="food-image" loading="lazy"/>
               <h4>{item.name}</h4>
               <p>{item.price}</p>
               {getQuantity(item.name) > 0 ? (
@@ -211,6 +213,14 @@ function Products() {
         .food-card:hover {
           background: #ffe1c2;
         }
+          .food-image{
+          width:100%;
+          height:50%;
+          object-fit:cover;
+          border-radius:6px;
+          margin-bottom:8px;
+          
+          }
         .buy-button, .submit-order {
           background-color: #ff6b00;
           color: white;

@@ -80,9 +80,19 @@ function Payment() {
   };
 
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
-      <h2>Complete Your Payment</h2>
-      <p>Click below to pay ₹{total} using Razorpay (Test Mode)</p>
+    <div
+  style={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f8f1e8"
+      }}
+>
+ <div style={{ textAlign: "center", padding: "20px" }}>
+      <h2 style={{fontSize:"3rem"}}>Complete Your Payment</h2>
+      <p style={{fontSize:"2rem"}}>Click below to pay ₹{total} using Razorpay (Test Mode)</p>
       <button
         onClick={openRazorpay}
         style={{
@@ -90,9 +100,10 @@ function Payment() {
           backgroundColor: "#ff6b00",
           color: "#fff",
           border: "none",
-          borderRadius: "6px",
-          fontSize: "16px",
-          cursor: "pointer"
+          borderRadius: "8px",
+          fontSize: "2rem",
+          cursor: "pointer",
+          
         }}
       >
         Pay Now
@@ -118,7 +129,7 @@ function Payment() {
             textAlign: "center",
             width: "300px"
           }}>
-             <h2>✅ Payment Successful</h2>
+             <h2> Payment Successful</h2>
             <p>Payment ID: {paymentId}</p>
             <p>Redirecting automatically in 5 seconds…</p>
             <button
@@ -140,7 +151,7 @@ function Payment() {
         </div>
       )}
 
-
+</div>
 
     </div>
   );

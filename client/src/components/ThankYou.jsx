@@ -10,10 +10,10 @@ function ThankYou() {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.heading}>🎉 Thank you for your order!</h2>
+      <h2 style={styles.heading}> Thank you for your order!</h2>
       <p style={styles.text}>We’ve emailed your confirmation. Hope you’re hungry!</p>
       <button onClick={goToMenu} style={styles.button}>
-        🍴 Back to Menu
+       Back to Menu
       </button>
     </div>
   );
