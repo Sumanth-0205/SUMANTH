@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import FoodCard from "./FoodCard";
 import foodMenu from "../foodMenu"; // adjust the path if you move the file
