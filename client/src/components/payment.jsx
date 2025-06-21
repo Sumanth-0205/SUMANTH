@@ -10,6 +10,8 @@ function Payment() {
   const [showAlert, setShowAlert] = useState(false);
   const [paymentId, setPaymentId] = useState(null);
   const [loading, setLoading] = useState(false);
+const [countdown, setCountdown] = useState(5);
+
 
   const proceedToNext = async () => {
     setShowAlert(false);
@@ -23,6 +25,16 @@ function Payment() {
     }
     navigate("/thank-you");
   };
+
+   useEffect(() => {
+    if (showAlert && countdown > 0) {
+      const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+    if (showAlert && countdown === 0) {
+      proceedToNext();
+    }
+  }, [showAlert, countdown]);
 
   const openRazorpay = async () => {
     try {
